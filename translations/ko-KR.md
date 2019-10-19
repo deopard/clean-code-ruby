@@ -1,15 +1,15 @@
 # clean-code-ruby
 
-Clean Code concepts adapted for Ruby.
+Ruby를 위한 클린 코드.
 
-Inspired by [clean-code-javascript](https://github.com/ryanmcdermott/clean-code-javascript).
+[clean-code-javascript](https://github.com/ryanmcdermott/clean-code-javascript)에 영감을 받아 만들어짐.
 
 *Note: The examples are largely ported over from JavaScript so they may not be idiomatic. Feel free to point out any non-idiomatic Ruby code by submitting an issue and I'll correct it right away. Also, pull requests are always welcome!*
 
 ## 목차
-  1. [Introduction](#introduction)
-  2. [Variables](#variables)
-  3. [Methods](#methods)
+  1. [소개](#소개)
+  2. [변수](#변수)
+  3. [메소드](#메소드)
   4. [Objects and Data Structures](#objects-and-data-structures)
   5. [Classes](#classes)
   6. [SOLID](#solid)
@@ -19,7 +19,7 @@ Inspired by [clean-code-javascript](https://github.com/ryanmcdermott/clean-code-
   11. [Comments](#comments)
   12. [Translations](#translations)
 
-## Introduction
+## 소개
 ![Humorous image of software quality estimation as a count of how many expletives
 you shout when reading code](http://www.osnews.com/images/comics/wtfm.jpg)
 
@@ -46,8 +46,8 @@ shaped into its final form. Finally, we chisel away the imperfections when
 we review it with our peers. Don't beat yourself up for first drafts that need
 improvement. Beat up the code instead!
 
-## **Variables**
-### Use meaningful and pronounceable variable names
+## **변수**
+### 의미있고 읽을 수 있는 변수명을 사용해라
 
 **나쁨:**
 ```ruby
@@ -60,9 +60,9 @@ current_date = Time.now.strftime('%Y/%m/%d')
 ```
 **[⬆ 맨 위로 이동](#목차)**
 
-### Use the same vocabulary for the same type of variable
+### 같은 종류의 변수에 대해서는 같은 어휘를 사용해라
 
-Pick one word for the concept and stick to it.
+해당 개념에 맞는 한 가지 단어를 고르고 해당 단어만 사용해라.
 
 **나쁨:**
 ```ruby
@@ -83,17 +83,15 @@ starts_at
 ```
 **[⬆ 맨 위로 이동](#목차)**
 
-### Use searchable names and use constants
-We will read more code than we will ever write. It's important that the code we
-do write is readable and searchable. By *not* naming variables that end up
-being meaningful for understanding our program, we hurt our readers.
-Make your names searchable.
+### 검색 가능한 이름을 사용하고 상수를 사용해라
+코드는 쓰여지는 것 보다 읽혀질 일이 더 많다. 가독성이 좋고 검색 가능한 코드를 작성하는 것은 매우 중요하다. 프로그램을 이해하는데 의미 없는 변수명을 사용하게 되면 독자를 방해하게 될 것이다.
+검색 가능한 이름을 지어라.
 
-Also, instead of hardcoding values and using "magic numbers", create constants.
+그리고 "매직 넘버"를 이용하거나 값을 하드코딩하여 넣는 대신 상수를 만들어라.
 
 **나쁨:**
 ```ruby
-# What the heck is 86400 for?
+# 도대체 86400는 왜있는거야?
 status = Timeout::timeout(86_400) do
   # ...
 end
@@ -101,7 +99,7 @@ end
 
 **좋음:**
 ```ruby
-# Declare them as capitalized globals.
+# 대문자로 쓰여진 전역 상수로 선언해라.
 SECONDS_IN_A_DAY = 86_400
 
 status = Timeout::timeout(SECONDS_IN_A_DAY) do
@@ -110,7 +108,7 @@ end
 ```
 **[⬆ 맨 위로 이동](#목차)**
 
-### Use explanatory variables
+### 설명하기 위한 변수를 사용해라
 **나쁨:**
 ```ruby
 address = 'One Infinite Loop, Cupertino 95014'
@@ -127,8 +125,8 @@ save_city_zip_code(city, zip_code)
 ```
 **[⬆ 맨 위로 이동](#목차)**
 
-### Avoid Mental Mapping
-Explicit is better than implicit.
+### 멘탈 매핑을 피해라
+명시적인 것이 암묵적인 것 보다 낫다.
 
 **나쁨:**
 ```ruby
@@ -139,7 +137,7 @@ locations.each do |l|
   # ...
   # ...
   # ...
-  # Wait, what is `l` for again?
+  # 잠깐, `l`이 뭐였지?
   dispatch(l)
 end
 ```
@@ -158,9 +156,8 @@ end
 ```
 **[⬆ 맨 위로 이동](#목차)**
 
-### Don't add unneeded context
-If your class/object name tells you something, don't repeat that in your
-variable name.
+### 불필요한 문맥을 추가하지 마라
+만약에 너의 클래스/객체가 무엇을 의미한다면 그 의미를 변수명에 반복해서 사용하지 마라.
 
 **나쁨:**
 ```ruby
@@ -189,8 +186,10 @@ end
 ```
 **[⬆ 맨 위로 이동](#목차)**
 
-### Use default arguments instead of short circuiting or conditionals
-Default arguments are often cleaner than short circuiting. Be aware that if you use them, your method will only provide default values for undefined arguments. Other "falsy" values such as `false` and `nil` will not be replaced by a default value.
+### short circuiting이나 조건문 대신 기본 값 인자를 사용해라
+기본 값 인수는 보통 short circuiting보다 깔끔하다. 기본 값 인수를 사용하면 너의
+메소드는 정의되지 않은 인수에 대해 제공된 기본 값만 사용하는 것을 주의해라.
+`false`나 `nil`과 같은 "falsy"한 값들은 기본 값으로 대체되지 않는다.
 
 **나쁨:**
 ```ruby
@@ -208,28 +207,24 @@ end
 ```
 **[⬆ 맨 위로 이동](#목차)**
 
-## **Methods**
-### Method arguments (2 or fewer ideally)
-Limiting the amount of method parameters is incredibly important because it
-makes testing your method easier. Having more than three leads to a
-combinatorial explosion where you have to test tons of different cases with
-each separate argument.
+## **메소드**
+### 메소드 인수(이상적으로 2개 이하)
+메소드 인수의 수를 제한하는 것은 메소드의 테스트를 더 쉽게 해주기 때문에 매우 중요하다.
+3개 이상을 갖게 되면 인자의 조합에 따른 경우의 수가 많아져 테스트해야 할 수가 수 없이 많아진다.
 
-One or two arguments is the ideal case, and three should be avoided if possible.
-Anything more than that should be consolidated. Usually, if you have
-more than two arguments then your method is trying to do too much. In cases
-where it's not, most of the time a higher-level object will suffice as an
-argument. Or you can pass data to the method by instance variables.
+하나 혹은 두 개의 인자가 이상적이고 세 개는 되도록이면 피해야 한다. 4개 이상은 정리되야 한다.
+보통 3개 이상의 인자가 필요한 경우는 메소드에서 너무 많은 일을 하려고 할 때다. 그렇지 않은
+경우에는 상위 레벨의 객체를 인자를 사용하는 것으로 해결할 수 있다. 또는 인스턴스 변수를 이용하여
+메소드에 데이터를 넘겨줄 수도 있다.
 
-Since Ruby allows you to make objects on the fly, without a lot of class
-boilerplate, you can use an object if you are finding yourself needing a
-lot of arguments. The prevailing pattern in Ruby is to use a hash of arguments.
+Ruby에서는 여러 클래스를 만들지 않도고 객체를 쉽게 만들 수 있으므로 여러개의 인수가 필요하다면 
+객체를 사용할 수 있다. Ruby에서 더 우세한 패턴은 해시 인자를 사용하는 것이다.
 
-To make it obvious what properties the method expects, you can use the keyword arguments syntax (introduced in Ruby 2.1). This has a few advantages:
+메소드가 기대하는 속성을 더 명확하게 하기 위하여 키워드 인수 문법(Ruby 2.1부터 사용 가능)을 사용할 수 도 있다.
+이는 몇 가지 이점을 가져다 준다.
 
-1. When someone looks at the method signature, it's immediately clear what
-properties are being used.
-2. If a required keyword argument is missing, Ruby will raise a useful `ArgumentError` that tells us which required argument we must include.
+1. 어떤 사람이 메소드 시그니처를 보면 바로 어떤 속성이 이용되는지 이해할 수 있다.
+2. 만약에 필수 키워드 인수가 없는 경우에 Ruby에서는 우리게에 어떤 인수가 필수인지 알려주는 `ArgumentError`를 발생시킨다. 
 
 **나쁨:**
 ```ruby
@@ -249,12 +244,11 @@ create_menu(title: 'Foo', body: 'Bar')
 **[⬆ 맨 위로 이동](#목차)**
 
 
-### Methods should do one thing
-This is by far the most important rule in software engineering. When methods
-do more than one thing, they are harder to compose, test, and reason about.
-When you can isolate a method to just one action, they can be refactored
-easily and your code will read much cleaner. If you take nothing else away from
-this guide other than this, you'll be ahead of many developers.
+### 메소드는 한 가지 일만 해야 한다.
+이는 소프트웨어 엔지니어링에 있어 가장 중요한 규칙이다. 메소드가 한 가지 이상의 일을
+하게 되면 작성, 테스트 및 추론하기가 어려워진다. 메소드를 하나의 액션으로 분리한다면 
+더 쉽게 리팩토링 할 수 있으며 코드는 훨씬 깔끔해질 것이다. 이것만 지켜도 많은 
+개발자들보다 앞서나갈 수 있다.
 
 **나쁨:**
 ```ruby
@@ -287,9 +281,9 @@ email_clients(active_clients(clients))
 ```
 **[⬆ 맨 위로 이동](#목차)**
 
-### Method names should say what they do
-Poorly named methods add to the code reviewer's cognitive load at best, and mislead the
-code reviewer at worst. Strive to capture the the precise intent when naming methods.
+### 메소드 이름은 메소드가 어떤 일을 하는지 나타내야 한다
+잘못 지어진 메소드 이름은 코드 리뷰어의 인지 부하를 일으키며 코드 리뷰어가 이해를 잘못하게 할 수 있다.
+메소드의 이름을 지을 때는 정확한 의도를 표현할 수 있도록 노력해라.
 
 **나쁨:**
 ```ruby
@@ -299,7 +293,7 @@ end
 
 date = DateTime.now
 
-# It's hard to tell from the method name what is added
+# 무엇이 더해졌는지 메소드 이름만 봐서는 알기 어렵다.
 add_to_date(date, 1)
 ```
 
@@ -314,10 +308,10 @@ add_month_to_date(date, 1)
 ```
 **[⬆ 맨 위로 이동](#목차)**
 
-### Methods should only be one level of abstraction
-When you have more than one level of abstraction your method is usually
-doing too much. Splitting up methods leads to reusability and easier
-testing. Furthermore, methods should descend by the level of abstraction: one very abstract method should call methods that are less abstract and so on.
+### 메소드는 한 단계의 추상화만 되야 한다
+보통 두 단계 이상의 추상화를 하는 경우엔 메소드가 너무 많은 일을 하고 있는 것이다.
+메소드를 나누는 것은 재사용성을 높여주고 테스트하기 쉽게 만들어준다. 
+더불어 메소드는 추상화 단계를 줄여야 한다: 추상적인 메소드는 자기보다 덜 추상적인 메소드를 호출하는 식으로 반복되야 한다.
 
 **나쁨:**
 ```ruby
@@ -392,27 +386,24 @@ end
 ```
 **[⬆ 맨 위로 이동](#목차)**
 
-### Remove duplicate code
-Do your absolute best to avoid duplicate code. Duplicate code is bad because it
-means that there's more than one place to alter something if you need to change
-some logic.
+### 중복되는 코드를 없애라
+중복되는 코드를 없애기 위해 무조건 최선을 다해라. 중복되는 코드는 로직을 변경하고 싶을
+때 두 군데 이상을 수정해야 한다는 뜻이기 때문에 나쁘다.
 
-Imagine if you run a restaurant and you keep track of your inventory: all your
-tomatoes, onions, garlic, spices, etc. If you have multiple lists that
-you keep this on, then all have to be updated when you serve a dish with
-tomatoes in them. If you only have one list, there's only one place to update!
+너가 음식점을 운영하고 재고를 관리하고 있다고 상상해보자: 토마토, 양파, 마늘, 향신료 등.
+만약에 너가 재고를 관리하는 목록을 두 개 이상 갖고 있다면 토마토를 포함한 음식을 하나
+내놓을 때마다 모든 목록을 업데이트해야 한다. 만약에 한 개의 목록만 갖고 있다면 그 하나만
+수정하면 된다!
 
-Oftentimes you have duplicate code because you have two or more slightly
-different things, that share a lot in common, but their differences force you
-to have two or more separate methods that do much of the same things. Removing
-duplicate code means creating an abstraction that can handle this set of
-different things with just one method/module/class.
+두 개 이상의 것들이 대부분 비슷하지만 아주 약간 다르며 그 차이점이 두 개 이상의 분리된
+메소드를 이용할 수 밖에 없을 때 중복되는 코드가 자주 생기게 된다.
+이런 차이점을 관리할 수 있도록 추상화된 하나의 메소드/모듈/클래스를 만들어 중복된 코드를 
+없앨 수 있다.
 
-Getting the abstraction right is critical, that's why you should follow the
-SOLID principles laid out in the *Classes* section. Bad abstractions can be
-worse than duplicate code, so be careful! Having said this, if you can make
-a good abstraction, do it! Don't repeat yourself, otherwise you'll find yourself
-updating multiple places anytime you want to change one thing.
+옳바른 추상화를 하는 것은 매우 중요하기 때문에 *클래스* 영역에서 다루고 있는 SOLID 원칙을 
+따라야 한다. 잘못된 추상화는 중복된 코드보다도 더 나쁠 수 있기 때문에 조심해야 한다!
+반대로 좋은 추상화를 할 수 있다면 꼭 해라! 한 가지 변경을 하고 싶어도 여러 곳을 변경하기 
+싫다면 반복해서 코드를 작성하지 마라.
 
 **나쁨:**
 ```ruby
@@ -463,8 +454,9 @@ end
 ```
 **[⬆ 맨 위로 이동](#목차)**
 
-### Don't use flags as method parameters
-Flags tell your user that this method does more than one thing. Methods should do one thing. Split out your methods if they are following different code paths based on a boolean.
+### 플래그를 메소드 인수로 사용하지 마라
+플래그는 이 메소드가 한 가지보다 많은 일을 한다는 것을 말해준다. 메소드는 한 가지 일만 해야 한다. 
+부울 변수에 따라 다른 코드를 실행한다면 메소드를 나눠라.
 
 **나쁨:**
 ```ruby
